@@ -1,0 +1,125 @@
+{
+    "id": "1ae9cc7b-29a4-4614-82df-00dc3ea74cd0",
+    "name": "BackupManager",
+    "friendlyName": "Backup Manager",
+    "description": "Website, folder or Backup Utility",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "visibility": [
+        "Release"
+    ],
+    "author": "NeedCode",
+    "preview": false,
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Backup Backup Management $(samplestring)",
+    "groups": [
+        {
+            "name": "source",
+            "displayName": "Source",
+            "isExpanded": true
+        },
+        {
+            "name": "dest",
+            "displayName": "Destination",
+            "isExpanded": true
+        }
+    ],
+    "inputs": [
+        {
+            "name": "BackupType",
+            "type": "radio",
+            "label": "Backup type",
+            "required": true,
+            "defaultValue": "Folder",
+            "groupName": "source",
+            "options": {
+                "Agent": "Folder",
+                "DeploymentGroup": "Website"
+            }
+        },
+
+        {
+            "name": "SourceMachineName",
+            "label": "Source Machine Name",
+            "type": "string",
+            "required": true,
+            "groupName": "source"
+        },
+        {
+            "name": "SourcePath",
+            "label": "Source Path",
+            "type": "string",
+            "groupName": "source",
+            "visibleRule": "DeploymentType=Folder"
+        },
+        {
+            "name": "SourceWebsiteName",
+            "label": "Source Website Name",
+            "type": "string",
+            "groupName": "source",
+            "visibleRule": "DeploymentType=Website"
+        },
+        {
+            "name": "SourceAdminLogin",
+            "label": "Source Admin login",
+            "required": true,
+            "helpMarkDown": "Administrator login for the source machines."        
+        },
+        {
+            "name": "SourceAdminPassword",
+            "label": "Source Admin Password",
+            "required": true,
+            "helpMarkDown": "Password for administrator login for the source machines. It can accept variable defined in Build/Release definitions as '$(passwordVariable)'. You may mark variable type as 'secret' to secure it."        
+        },
+        {
+            "name": "DestinationMachineName",
+            "label": "Destination Machine Name",
+            "type": "string",
+            "required": true,
+            "groupName": "dest"
+        },
+        {
+            "name": "DestinationPath",
+            "label": "Destination Path",
+            "type": "string",
+            "required": true,
+            "groupName": "dest"
+        },
+        {
+            "name": "DestAdminLogin",
+            "label": "Destination Admin login",
+            "required": true,
+            "helpMarkDown": "Administrator login for the target machines."        },
+        {
+            "name": "DestAdminPassword",
+            "label": "Destination Admin Password",
+            "required": true,
+            "helpMarkDown": "Password for administrator login for the target machines. It can accept variable defined in Build/Release definitions as '$(passwordVariable)'. You may mark variable type as 'secret' to secure it."        
+        },
+        {
+            "name": "CreateZip",
+            "type": "boolean",
+            "label": "Compression files",
+            "defaultValue": false,
+            "groupName": "dest"
+        },
+        {
+            "name": "ZipFileName",
+            "label": "Zip fileName",
+            "type": "string",
+            "defaultValue": "Backup_$(Build.BuildNumber).zip",
+            "groupName": "dest",
+            "visibleRule": "CreateZip=true"
+        }
+    ],
+    "execution": {
+        "PowerShell3": {
+            "target": "BackupTask.ps1",
+            "workingDirectory": "$(currentDirectory)"
+        }
+    }
+}
