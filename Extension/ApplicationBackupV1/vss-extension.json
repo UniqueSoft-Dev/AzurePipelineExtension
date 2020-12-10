@@ -58,6 +58,10 @@
                 "name": "Application Backup"
             }
         }
+    ],
+    "files": [
+        {
+            "path": "BuildTasks"
+        }
     ]
-
 }

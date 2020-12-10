@@ -9,7 +9,7 @@
         "Release"
     ],
     "author": "NeedCode",
-    "preview": false,
+    "preview": true,
     "version": {
         "Major": 1,
         "Minor": 0,
@@ -81,7 +81,7 @@
         }
     ],
     "execution": {
-        "PowerShell": {
+        "PowerShell3": {
             "target": "BackupTask.ps1",
             "platforms": [
                 "windows"
