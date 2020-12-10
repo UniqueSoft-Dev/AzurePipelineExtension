@@ -16,18 +16,7 @@
         "Patch": 0
     },
     "instanceNameFormat": "Backup Backup Management $(samplestring)",
-    "groups": [
-        {
-            "name": "source",
-            "displayName": "Source",
-            "isExpanded": true
-        },
-        {
-            "name": "dest",
-            "displayName": "Destination",
-            "isExpanded": true
-        }
-    ],
+    "groups": [],
     "inputs": [
         {
             "name": "BackupType",
@@ -35,7 +24,6 @@
             "label": "Backup type",
             "required": true,
             "defaultValue": "Folder",
-            "groupName": "source",
             "options": {
                 "Agent": "Folder",
                 "DeploymentGroup": "Website"
@@ -46,73 +34,49 @@
             "name": "SourceMachineName",
             "label": "Source Machine Name",
             "type": "string",
-            "required": true,
-            "groupName": "source"
+            "required": true
         },
         {
             "name": "SourcePath",
             "label": "Source Path",
             "type": "string",
-            "groupName": "source",
             "visibleRule": "DeploymentType=Folder"
         },
         {
             "name": "SourceWebsiteName",
             "label": "Source Website Name",
             "type": "string",
-            "groupName": "source",
             "visibleRule": "DeploymentType=Website"
         },
         {
-            "name": "SourceAdminLogin",
-            "label": "Source Admin login",
+            "name": "AdminLogin",
+            "label": "Admin login",
             "required": true,
             "helpMarkDown": "Administrator login for the source machines."        
         },
         {
-            "name": "SourceAdminPassword",
-            "label": "Source Admin Password",
+            "name": "AdminPassword",
+            "label": "Admin Password",
             "required": true,
             "helpMarkDown": "Password for administrator login for the source machines. It can accept variable defined in Build/Release definitions as '$(passwordVariable)'. You may mark variable type as 'secret' to secure it."        
-        },
-        {
-            "name": "DestinationMachineName",
-            "label": "Destination Machine Name",
-            "type": "string",
-            "required": true,
-            "groupName": "dest"
         },
         {
             "name": "DestinationPath",
             "label": "Destination Path",
             "type": "string",
-            "required": true,
-            "groupName": "dest"
-        },
-        {
-            "name": "DestAdminLogin",
-            "label": "Destination Admin login",
-            "required": true,
-            "helpMarkDown": "Administrator login for the target machines."        },
-        {
-            "name": "DestAdminPassword",
-            "label": "Destination Admin Password",
-            "required": true,
-            "helpMarkDown": "Password for administrator login for the target machines. It can accept variable defined in Build/Release definitions as '$(passwordVariable)'. You may mark variable type as 'secret' to secure it."        
+            "required": true
         },
         {
             "name": "CreateZip",
             "type": "boolean",
             "label": "Compression files",
-            "defaultValue": false,
-            "groupName": "dest"
+            "defaultValue": false
         },
         {
             "name": "ZipFileName",
             "label": "Zip fileName",
             "type": "string",
             "defaultValue": "Backup_$(Build.BuildNumber).zip",
-            "groupName": "dest",
             "visibleRule": "CreateZip=true"
         }
     ],

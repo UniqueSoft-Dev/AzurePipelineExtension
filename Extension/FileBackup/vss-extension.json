@@ -1,39 +1,55 @@
 {
     "manifestVersion": 1,
     "id": "FileBackup",
-    "publisher": "UniqueSoftEurope",
+    "publisher": "NeedCode",
     "version": "1.0.0",
     "name": "File backup",
-    "description": "Backup files folder or IIS website",
+    "description": "Backup files, folder or IIS website",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
+    },
     "public": false,
-    "categories": ["Azure Repos"],
+    "categories": ["Azure Pipelines"],
+    "icons": {
+        "default": "Images\\backup_icon.png"
+    },
+    "tags": [
+        "Release Management",
+        "Azure DevOps Pipelines",
+        "Windows Service",
+        "VSTS",
+        "TopShelf",
+        "Visual Studio Team Services"
+    ],
+    "screenshots": [],
+    "content": {
+        "details": {
+            "path": "README.md"
+        }
+    },
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
+    "license": "MIT",
+
     "contributions": [
         {
-            "id": "my-hub",
-            "type": "ms.vss-web.hub",
+            "id": "FileBackup",
+            "type": "ms.vss-distributed-task.task",
             "targets": [
-                "ms.vss-code-web.code-hub-group"
+                "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "My Hub",
-                "uri": "my-hub.html"
+                "name": "File Backup"
             }
         }
     ],
     "files": [
         {
-            "path": "my-hub.html",
-            "addressable": true
-        },
-        {
-            "path": "node_modules/vss-web-extension-sdk/lib",
-            "addressable": true,
-            "packagePath": "lib"
+            "path": "FileBackup"
         }
     ]
 }
