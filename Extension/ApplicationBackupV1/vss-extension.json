@@ -1,0 +1,63 @@
+{
+    "manifestVersion": 1,
+    "id": "ApplicationBackup",
+    "publisher": "NeedCode",
+    "version": "1.0.0",
+    "name": "Application backup",
+    "description": "Backup files, folder or IIS website before update",
+    "public": false,
+    "galleryFlags": [
+        "Preview"
+    ],
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "links": {
+        "home": {
+            "uri": "https://github.com/UniqueSoftEurope"
+        },
+        "getstarted": {
+            "uri": "https://github.com/UniqueSoftEurope/AzurePipelineExtension/wiki/GetStarted"
+        },
+        "repository": {
+            "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
+        },
+        "issues": {
+            "uri": "https://github.com/UniqueSoftEurope/AzurePipelineExtension/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
+    },
+    "icons": {
+        "default": "Images/backup_icon.png"
+    },
+    "screenshots": [],
+    "content": {
+        "details": {
+            "path": "README.md"
+        },
+        "license": {
+            "path": "license.md"
+        }
+    },
+    "contributions": [
+        {
+            "id": "NeedCode-ApplicationBackup",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Application Backup"
+            }
+        }
+    ]
+
+}
