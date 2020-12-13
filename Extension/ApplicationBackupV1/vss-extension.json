@@ -16,6 +16,12 @@
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
+    "tags": [
+        "Backup",
+        "Archive",
+        "zip",
+        "Application Management"
+    ],
     "links": {
         "home": {
             "uri": "https://github.com/UniqueSoftEurope"
@@ -35,7 +41,7 @@
         "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
     },
     "icons": {
-        "default": "Images/backup_icon_32.png"
+        "default": "Images/backup_icon.png"
     },
     "screenshots": [
         {
