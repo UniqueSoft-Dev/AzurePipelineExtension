@@ -16,6 +16,12 @@
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
+    "tags": [
+        "Backup",
+        "Archive",
+        "zip",
+        "Application Management"
+    ],
     "links": {
         "home": {
             "uri": "https://github.com/UniqueSoftEurope"
