@@ -41,7 +41,7 @@
         "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
     },
     "icons": {
-        "default": "Images/backup_icon_32.png"
+        "default": "Images/backup_icon.png"
     },
     "screenshots": [
         {
