@@ -4,10 +4,9 @@
     "publisher": "NeedCode",
     "version": "1.0.0",
     "name": "Application backup",
-    "description": "Backup files, folder or IIS website before update",
-    "public": false,
+    "description": "Backup files, folder before update.",
+    "public": true,
     "galleryFlags": [
-        "Preview"
     ],
     "categories": [
         "Azure Pipelines"
@@ -36,9 +35,13 @@
         "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
     },
     "icons": {
-        "default": "Images/backup_icon.png"
+        "default": "Images/backup_icon_32.png"
     },
-    "screenshots": [],
+    "screenshots": [
+        {
+            "path": "Images\\screenshot_settings.png"
+        }
+    ],
     "content": {
         "details": {
             "path": "README.md"
@@ -55,7 +58,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "Application Backup"
+                "name": "BuildTasks"
             }
         }
     ],
