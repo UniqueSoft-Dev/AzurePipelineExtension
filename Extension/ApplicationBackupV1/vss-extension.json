@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "ApplicationBackup",
     "publisher": "NeedCode",
-    "version": "1.0.0",
+    "version": "1.6.0",
     "name": "Application backup",
     "description": "Backup files, folder before update.",
     "public": true,

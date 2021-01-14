@@ -38,13 +38,14 @@ try {
     
     $backupJob = {
         param (
-        [string]$sourceMachineName,
-        [string]$path,
-        [string]$destMachine,
-        [string]$destPath,
-        [bool]$createArchive,
-        [string]$archiveFileName,
-        [bool]$includeRootFolder
+            [object]$credential,
+            [string]$sourceMachineName,
+            [string]$path,
+            [string]$destMachine,
+            [string]$destPath,
+            [bool]$createArchive,
+            [string]$archiveFileName,
+            [bool]$includeRootFolder
         )
 
         Write-VstsTaskDebug -Message "Paremeters: ==================================================================="
@@ -128,7 +129,7 @@ try {
             {
                 try
                 {
-                    New-PSDrive -Name WFCPSDrive -PSProvider FileSystem -Root $destPath -Credential $psCredentialObject -ErrorAction 'Stop'
+                    New-PSDrive -Name WFCPSDrive -PSProvider FileSystem -Root $destPath -Credential $credential -ErrorAction 'Stop'
                     $foundParentPath = $true
                     Write-Verbose "Found parent path"
                     $relativePath = $path.Substring($destPath.Length)
@@ -172,27 +173,61 @@ try {
         Write-VstsTaskDebug -Message "sourceNetworkPath: $($sourceNetworkPath)"
         Write-VstsTaskDebug -Message "targetNetworkPath: $($targetNetworkPath)"
 
+        $destinationDirectory = [System.IO.Path]::GetDirectoryName($targetNetworkPath)
+		
+		if(-not (Test-Path -Path $destinationDirectory))
+		{
+			Create-DestinationDirectory -path $destinationDirectory
+		}
 
-        if($createArchive -eq $true)
-        {
-            Write-Output "Create archive file."
-
-            Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-            $dPath = Get-DestinationNetworkPath -targetPath $destPath -machineShare $destMachineShare
-
-            if(-not (Test-Path -Path $dPath))
+        try 
+		{
+			New-PSDrive -Name "DestDrive" -PSProvider FileSystem -Root $destinationDirectory -Credential $credential -ErrorAction 'Stop'
+			New-PSDrive -Name "SourcePSDrive" -PSProvider FileSystem -Root $sourceNetworkPath -Credential $credential -ErrorAction 'Stop'
+		} catch {
+			Write-VstsTaskError -Message (Get-VstsLocString -Key "WFC_FailedToCreatePSDrive" -ArgumentList $destinationDirectory, $($_.Exception.Message)) -ErrCode "WFC_FailedToCreatePSDrive"
+			throw
+        }
+        
+        try
+		{
+            if($createArchive -eq $true)
             {
-                Create-DestinationDirectory -path $dPath
-            }
+                Write-Output "Create archive file."
 
-            $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
-            [System.IO.Compression.ZipFile]::CreateFromDirectory($sourceNetworkPath, $targetNetworkPath, $compressionLevel, $false)
+                Add-Type -AssemblyName System.IO.Compression.FileSystem
+				Compress-Archive -Path $sourceNetworkPath -DestinationPath $targetNetworkPath -CompressionLevel "Optimal"
+            }
+            else {
+                Write-Output "Copy files and subfolders."
+                Robocopy $sourceNetworkPath $targetNetworkPath /E
+            }
         }
-        else {
-            Write-Output "Copy files and subfolders."
-            Robocopy $sourceNetworkPath $targetNetworkPath /E
+        finally
+        {
+            if ($machineShare)
+            {
+                $remoteSharePsDrive = Get-PSDrive -Name 'DestDrive' -ErrorAction 'SilentlyContinue'
+                if ($remoteSharePsDrive -ne $null)
+                {
+                    $remoteSharePath = $remoteSharePsDrive.Root
+                    Write-Verbose "Attempting to remove PSDrive 'DestDrive'"
+                    Remove-PSDrive -Name 'DestDrive' -Force
+                    Write-Verbose "RemoteSharePath: $remoteSharePath"
+                    Try-CleanupPSDrive -Path $remoteSharePath
+                }
+                $remote1SharePsDrive = Get-PSDrive -Name 'SourcePSDrive' -ErrorAction 'SilentlyContinue'
+                if ($remote1SharePsDrive -ne $null)
+                {
+                    $remote1SharePsDrive = $remote1SharePsDrive.Root
+                    Write-Verbose "Attempting to remove PSDrive 'WFCPSDrive'"
+                    Remove-PSDrive -Name 'remote1SharePsDrive' -Force
+                    Write-Verbose "RemoteSharePath: $remote1SharePsDrive"
+                    Try-CleanupPSDrive -Path $remote1SharePsDrive
+                }
+            }
         }
+
     }
     
     Write-Output "Create powershell credential."
@@ -202,13 +237,8 @@ try {
         ScriptBlock = $backupJob
     }
 
-    if ($credential)
-    {
-        $invokeCommandSplat.Credential = $psSourceCredential
-        $invokeCommandSplat.ComputerName = $_sourceMachineName
-    }
     Write-Output "Invoke Backup Job"
-    Invoke-Command @invokeCommandSplat -ArgumentList $_sourceMachineName, $_sourcePath, $_destinationMachineName, $_destinationPath, $_createArchive, $_archiveFileName, $_includeRootFolder
+    Invoke-Command @invokeCommandSplat -ArgumentList $psSourceCredential, $_sourceMachineName, $_sourcePath, $_destinationMachineName, $_destinationPath, $_createArchive, $_archiveFileName, $_includeRootFolder
 }
 catch {
     Write-VstsTaskError -Message $_.Exception.Message
