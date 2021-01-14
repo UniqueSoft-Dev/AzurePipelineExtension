@@ -2,7 +2,7 @@
     "id": "1ae9cc7b-29a4-4614-82df-00dc3ea74cd0",
     "name": "ApplicationBackup",
     "friendlyName": "Application Backup Manager",
-    "description": "Backup files, folder before update. Version: 1.0.0",
+    "description": "Backup files, folder before update. Version: 1.6.0",
     "helpMarkDown": "",
     "category": "Utility",
     "visibility": [
@@ -11,7 +11,7 @@
     "author": "NeedCode",
     "version": {
         "Major": 1,
-        "Minor": 0,
+        "Minor": 6,
         "Patch": 0
     },
     "instanceNameFormat": "Backup Application $(SourcePath)",

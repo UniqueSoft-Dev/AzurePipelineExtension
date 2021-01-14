@@ -196,16 +196,7 @@ try {
                 Write-Output "Create archive file."
 
                 Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-                $dPath = Get-DestinationNetworkPath -targetPath $destPath -machineShare $destMachineShare
-
-                if(-not (Test-Path -Path $dPath))
-                {
-                    Create-DestinationDirectory -path $dPath
-                }
-
-                $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
-                [System.IO.Compression.ZipFile]::CreateFromDirectory($sourceNetworkPath, $targetNetworkPath, $compressionLevel, $false)
+				Compress-Archive -Path $sourceNetworkPath -DestinationPath $targetNetworkPath -CompressionLevel "Optimal"
             }
             else {
                 Write-Output "Copy files and subfolders."
