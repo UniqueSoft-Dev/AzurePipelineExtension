@@ -167,22 +167,26 @@ try {
         $sourceMachineShare = Get-MachineShare -machine $sourceMachineName -targetPath $path
         $sourceNetworkPath = Get-DestinationNetworkPath -targetPath $path -machineShare $sourceMachineShare
 
-        $destMachineShare = Get-MachineShare -machine $sourceMachineName -targetPath $destPath
+        $destMachineShare = Get-MachineShare -machine $destMachine -targetPath $destPath
         $targetNetworkPath = Get-DestinationNetworkPath -targetPath $destPath -machineShare $destMachineShare -zipFileName $archiveFileName -archive $createArchive
 
         Write-VstsTaskDebug -Message "sourceNetworkPath: $($sourceNetworkPath)"
         Write-VstsTaskDebug -Message "targetNetworkPath: $($targetNetworkPath)"
 
+		Write-VstsTaskDebug -Message "Get name of directory from $($targetNetworkPath)"
         $destinationDirectory = [System.IO.Path]::GetDirectoryName($targetNetworkPath)
-		
-		if(-not (Test-Path -Path $destinationDirectory))
-		{
+		Write-VstsTaskDebug -Message "Test $($destinationDirectory) directory"
+#		if(-not (Test-Path -Path $destinationDirectory -Credential $credential))
+#		{
+#			Write-VstsTaskDebug -Message "$($destinationDirectory) folder does not exist"
 			Create-DestinationDirectory -path $destinationDirectory
-		}
+#		}
 
         try 
 		{
+			Write-VstsTaskDebug -Message "Check access for $($destinationDirectory)"
 			New-PSDrive -Name "DestDrive" -PSProvider FileSystem -Root $destinationDirectory -Credential $credential -ErrorAction 'Stop'
+			Write-VstsTaskDebug -Message "Check access for $($sourceNetworkPath)"
 			New-PSDrive -Name "SourcePSDrive" -PSProvider FileSystem -Root $sourceNetworkPath -Credential $credential -ErrorAction 'Stop'
 		} catch {
 			Write-VstsTaskError -Message (Get-VstsLocString -Key "WFC_FailedToCreatePSDrive" -ArgumentList $destinationDirectory, $($_.Exception.Message)) -ErrCode "WFC_FailedToCreatePSDrive"
