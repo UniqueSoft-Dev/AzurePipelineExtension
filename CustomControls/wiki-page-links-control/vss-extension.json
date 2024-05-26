@@ -1,0 +1,75 @@
+{
+    "manifestVersion": 1,
+    "id": "WikiLinks",
+    "publisher": "NeedCode",
+    "version": "1.0.0",
+    "name": "Wiki Links",
+    "description": "Add wiki page to workitem",
+    "public": false,
+    "galleryFlags": [
+    ],
+    "categories": [
+        "Plan and track"
+    ],
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services.Cloud"
+        }
+    ],
+    "tags": [
+        "Wiki"
+    ],
+    "links": {
+        "home": {
+            "uri": "https://github.com/UniqueSoftEurope"
+        },
+        "getstarted": {
+            "uri": "https://github.com/UniqueSoftEurope/AzurePipelineExtension/wiki/GetStarted"
+        },
+        "repository": {
+            "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
+        },
+        "issues": {
+            "uri": "https://github.com/UniqueSoftEurope/AzurePipelineExtension/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/UniqueSoftEurope/AzurePipelineExtension"
+    },
+    "icons": {
+        "default": "Images/backup_icon.png"
+    },
+    "screenshots": [
+        {
+            "path": "Images\\screenshot_settings.png"
+        }
+    ],
+    "content": {
+        "details": {
+            "path": "README.md"
+        },
+        "license": {
+            "path": "license.md"
+        }
+    },
+    "contributions": [
+        {
+            "id": "NeedCode-ApplicationBackup",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "BuildTasks"
+            }
+        }
+    ],
+    "files": [
+        {
+          "path": "node_modules/vss-web-extension-sdk/lib",
+          "addressable": true,
+          "packagePath": "lib"
+        }
+      ]
+}
